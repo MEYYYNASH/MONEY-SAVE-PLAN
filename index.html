@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="km" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>My Money — ចំណូល & ចំណាយ</title>
+  
+  <!-- Fonts: Inter & Noto Sans Khmer -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top Page Progress Loading Bar & Global Rolling Ring Loader -->
+  <div class="top-loading-bar" id="topLoadingBar"></div>
+  <div class="global-rolling-loader" id="globalRollingLoader">
+    <div class="roll-ring"></div>
+  </div>
+
+  <div class="app">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="brand-text">
+          <b>MY MONEY</b>
+          <small>ចំណូល & ចំណាយ</small>
+        </div>
+      </div>
+
+      <nav class="desktop-nav">
+        <button class="nav-btn active" data-page="dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>ផ្ទាំងគ្រប់គ្រង</span>
+        </button>
+        <button class="nav-btn" data-page="transactions">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/><path d="M12 4v16"/></svg>
+          <span>ប្រតិបត្តិការ</span>
+        </button>
+        <button class="nav-btn" data-page="budget">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          <span>ថវិកា</span>
+        </button>
+        <button class="nav-btn" data-page="ai">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg>
+          <span>AI Money</span>
+        </button>
+        <button class="nav-btn" data-page="savings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2 2.5-2.5 2.5-6 1.5-7.5-.7-1-1.2-1.5-2-2z"/><path d="M16 11h.01"/></svg>
+          <span>ផែនការសន្សំ</span>
+        </button>
+        <button class="nav-btn" data-page="settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>ការកំណត់</span>
+        </button>
+      </nav>
+
+      <div class="side-tip">
+        <div class="tip-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <b>Smart Tracker</b>
+        </div>
+        <p>វាយ “កាហ្វេ 2$” ក្នុង AI Money ប្រព័ន្ធនឹងកំណត់ចំណាត់ថ្នាក់ស្វ័យប្រវត្តិ!</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+      <!-- Top Header Bar -->
+      <header class="app-header">
+        <div class="header-title">
+          <span class="eyebrow">PERSONAL FINANCE</span>
+          <h1 id="pageTitle">ផ្ទាំងគ្រប់គ្រង</h1>
+        </div>
+        
+        <div class="header-controls">
+          <!-- Custom Glassmorphic Month Picker -->
+          <div class="month-picker-container" id="customMonthPicker">
+            <button class="month-trigger-btn" id="monthPickerBtn" type="button" title="ជ្រើសរើសខែ">
+              <svg class="month-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              <span id="monthPickerText">សីហា 2026</span>
+              <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+
+            <!-- Custom Month Popover -->
+            <div class="month-popover" id="monthPopover">
+              <div class="popover-header">
+                <button class="year-nav-btn" id="prevYearBtn" type="button" title="ឆ្នាំមុន">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <span class="year-display" id="pickerYearDisplay">2026</span>
+                <button class="year-nav-btn" id="nextYearBtn" type="button" title="ឆ្នាំបន្ទាប់">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+              </div>
+
+              <!-- 3x4 Month Grid -->
+              <div class="months-grid" id="monthsGrid"></div>
+
+              <div class="popover-footer">
+                <button class="popover-action-btn" id="resetThisMonthBtn" type="button">ខែនេះ</button>
+                <button class="popover-action-btn primary-action" id="closePickerBtn" type="button">រួចរាល់</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="icon-btn" id="themeBtn" title="ប្តូរ Theme">
+            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+
+          <!-- Login / Profile Button -->
+          <button class="icon-btn" id="openAuthBtn" title="ចូលប្រើ / ចុះឈ្មោះ (Login)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+
+          <!-- Desktop Add Button -->
+          <button class="btn-primary desktop-add-btn" id="addBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <span>+ បន្ថែម</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE 1: DASHBOARD -->
+      <section id="dashboard" class="page active-page">
+        <!-- Hero Balance Card -->
+        <div class="hero-card">
+          <div class="hero-content">
+            <span class="hero-label" id="monthLabel">សមតុល្យសរុប</span>
+            <h2 id="balance" class="balance-amount">៛0</h2>
+            <div class="hero-badges">
+              <span class="badge badge-income" id="heroNetSavings">សន្សំ +៛0</span>
+            </div>
+          </div>
+          <div class="hero-icon-wrapper">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          </div>
+        </div>
+
+        <!-- Quick Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card income-card">
+            <div class="stat-icon income-bg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+            </div>
+            <div class="stat-info">
+              <span>ចំណូលសរុប</span>
+              <strong id="income">៛0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card expense-card">
+            <div class="stat-icon expense-bg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            </div>
+            <div class="stat-info">
+              <span>ចំណាយសរុប</span>
+              <strong id="expense">៛0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card count-card">
+            <div class="stat-icon count-bg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
+            </div>
+            <div class="stat-info">
+              <span>ចំនួនប្រតិបត្តិការ</span>
+              <strong id="count">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Savings Overview Quick Widget Card on Dashboard (Full Width) -->
+        <div class="glass-card" style="margin-top: 16px; margin-bottom: 20px; cursor: pointer; transition: transform 0.2s;" onclick="go('savings')">
+          <div class="card-header">
+            <h3 style="display: flex; align-items: center; gap: 8px; font-size: 15px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-primary);"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2 2.5-2.5 2.5-6 1.5-7.5-.7-1-1.2-1.5-2-2z"/><path d="M16 11h.01"/></svg>
+              <span>ផែនការសន្សំប្រាក់ (Saving Plans)</span>
+            </h3>
+            <span class="text-sub" style="color: var(--accent-primary); font-weight: 700;">មើលទាំងអស់ ➔</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px;">
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted);">ប្រាក់សន្សំសរុប</span>
+              <div id="dashSavingsTotal" style="font-size: 20px; font-weight: 800; color: var(--accent-income);">៛0</div>
+            </div>
+            <div style="text-align: right;">
+              <span id="dashActivePlansText" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">0 ផែនការសកម្ម</span>
+            </div>
+          </div>
+          <div class="bar-track" style="height: 8px; margin-top: 10px;">
+            <i class="bar-fill" id="dashSavingsBar" style="width: 0%;"></i>
+          </div>
+        </div>
+
+        <!-- Grid: Breakdown & Recent -->
+        <div class="grid-2col">
+          <div class="glass-card">
+            <div class="card-header">
+              <h3>ចំណាយតាមប្រភេទ</h3>
+              <span class="text-sub">ខែនេះ</span>
+            </div>
+            <div id="categoryBars" class="bars-container"></div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <h3>ប្រតិបត្តិការថ្មីៗ</h3>
+              <button class="link-btn" data-page-jump="transactions">មើលទាំងអស់ →</button>
+            </div>
+            <div id="recent" class="tx-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 2: TRANSACTIONS -->
+      <section id="transactions" class="page">
+        <div class="toolbar-card glass-card">
+          <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="search" placeholder="ស្វែងរក ដូចជា កាហ្វេ, WiFi, បាយ...">
+          </div>
+          <div class="filter-box">
+            <select id="filter" class="select-input">
+              <option value="all">ទាំងអស់</option>
+              <option value="income">ចំណូល (+)</option>
+              <option value="expense">ចំណាយ (-)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div id="transactionList" class="tx-list full-list"></div>
+        </div>
+      </section>
+
+      <!-- PAGE 3: BUDGET -->
+      <section id="budget" class="page">
+        <div class="glass-card budget-summary-card">
+          <div class="card-header">
+            <h3>ថវិកាប្រចាំខែ</h3>
+            <span id="budgetTotal" class="budget-badge">៛0 / ៛0</span>
+          </div>
+          
+          <div class="budget-progress-section">
+            <div class="progress-labels">
+              <span>ការប្រើប្រាស់ថវិកា</span>
+              <strong id="budgetText">0%</strong>
+            </div>
+            <div class="progress-bar-track">
+              <div id="budgetProgress" class="progress-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="budget-input-form">
+            <input id="budgetAmount" type="number" placeholder="កំណត់ថវិកាប្រចាំខែថ្មី (៛)">
+            <button class="btn-primary" id="saveBudget">រក្សាទុក</button>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle">ការបែងចែកថវិកាតាមប្រភេទ</h3>
+        <div class="grid-2col" id="budgetCategories"></div>
+      </section>
+
+      <!-- PAGE 4: AI MONEY -->
+      <section id="ai" class="page">
+        <div class="glass-card ai-hero-card">
+          <div class="ai-orb-wrapper">
+            <div class="ai-orb-glow"></div>
+            <div class="ai-orb">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg>
+            </div>
+          </div>
+
+          <h2>AI Financial Assistant</h2>
+          <p>វាយចំណាយ ឬចំណូលរបស់អ្នកជាភាសាធម្មតា AI នឹងស្គាល់ប្រភេទ និងចំនួនទឹកប្រាក់ភ្លាមៗ!</p>
+
+          <div class="ai-input-group">
+            <input id="quickText" placeholder='ឧ. "កាហ្វេ 2.5$" ឬ "បង់ WiFi 10$"' autocomplete="off">
+            <button class="btn-primary" id="parseBtn">
+              <span>វិភាគ</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+            </button>
+          </div>
+
+          <div class="ai-presets-header">
+            <span>សាកល្បងចុច៖</span>
+          </div>
+          <div id="aiPresetsContainer" class="ai-presets"></div>
+
+          <div id="aiResult" class="ai-result-box">
+            <div class="ai-placeholder">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <span>បញ្ចូលអត្ថបទដើម្បីឲ្យ AI ជួយវិភាគ</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 5: SETTINGS -->
+      <section id="settings" class="page">
+        <div class="glass-card settings-card">
+          <h3>ការកំណត់កម្មវិធី</h3>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <b>រូបិយប័ណ្ណបង្ហាញ</b>
+              <small>ជ្រើសរើសរូបិយប័ណ្ណមេសម្រាប់ទិន្នន័យ</small>
+            </div>
+            <select id="currency" class="select-input">
+              <option value="៛">រៀល (៛)</option>
+              <option value="$">ដុល្លារ ($)</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <b>Theme កម្មវិធី</b>
+              <small>ផ្លាស់ប្តូររវាង Dark និង Light mode</small>
+            </div>
+            <button class="btn-secondary" id="themeToggleSetting">
+              <span id="themeSettingLabel">Dark Glassmorphic</span>
+            </button>
+          </div>
+
+          <div class="setting-divider"></div>
+
+          <div class="setting-section">
+            <div class="setting-header-group">
+              <h4>កំណត់ Preset AI Quick Prompts</h4>
+              <p class="setting-desc">កំណត់ប៊ូតុងស្វ័យប្រវត្តិសម្រាប់ AI Money (ឧ. កាហ្វេ 2$, WiFi 15$)</p>
+            </div>
+
+            <div class="preset-add-form">
+              <input id="newPresetLabel" placeholder="ឈ្មោះបង្ហាញ (ឧ. កាហ្វេ 2$)">
+              <input id="newPresetText" placeholder="អត្ថបទ AI (ឧ. កាហ្វេ 2$)">
+              <button class="btn-primary" id="addPresetBtn" type="button">+ បន្ថែម</button>
+            </div>
+
+            <div id="presetsList" class="presets-list"></div>
+          </div>
+
+          <div class="setting-divider"></div>
+
+          <div class="setting-danger-zone">
+            <h4>តំបន់គ្រោះថ្នាក់</h4>
+            <p>ការលុបទិន្នន័យមិនអាចស្តារឡើងវិញបានឡើយ។</p>
+            <button class="btn-danger" id="clearData">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              <span>លុបទិន្នន័យទាំងអស់</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 6: SAVING PLANS -->
+      <section id="savings" class="page">
+        <!-- Top Savings Overview Header Card -->
+        <div class="glass-card savings-hero-card">
+          <div class="savings-hero-header">
+            <div>
+              <span class="badge badge-primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2 2.5-2.5 2.5-6 1.5-7.5-.7-1-1.2-1.5-2-2z"/><path d="M16 11h.01"/></svg>
+                <span>ផែនការសន្សំប្រាក់ (Saving Plans)</span>
+              </span>
+              <h2 style="font-size: 22px; font-weight: 800; margin-top: 6px;">គោលដៅហិរញ្ញវត្ថុរបស់អ្នក</h2>
+              <p style="font-size: 13px; color: var(--text-muted);">កំណត់គោលដៅសន្សំ និងគណនាប្រាក់ត្រូវសន្សំប្រចាំថ្ងៃ ប្រចាំសប្ដាហ៍ និងប្រចាំខែដោយស្វ័យប្រវត្តិ</p>
+            </div>
+            <button class="btn-primary" id="openCreatePlanBtn" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+              <span>+ បង្កើតផែនការសន្សំ</span>
+            </button>
+          </div>
+
+          <!-- Savings Summary Cards Grid -->
+          <div class="savings-summary-grid">
+            <div class="savings-summary-card">
+              <div class="summary-icon inc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg></div>
+              <div>
+                <span class="summary-label">ប្រាក់សន្សំសរុប</span>
+                <b class="summary-value" id="savingsTotalAmount">៛0</b>
+              </div>
+            </div>
+            <div class="savings-summary-card">
+              <div class="summary-icon active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="m17 5-5-5-5 5"/><path d="m17 19-5 5-5-5"/></svg></div>
+              <div>
+                <span class="summary-label">ផែនការសកម្ម</span>
+                <b class="summary-value" id="savingsActivePlansCount">0</b>
+              </div>
+            </div>
+            <div class="savings-summary-card">
+              <div class="summary-icon done"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div>
+                <span class="summary-label">ផែនការសម្រេចបាន</span>
+                <b class="summary-value" id="savingsCompletedPlansCount">0</b>
+              </div>
+            </div>
+            <div class="savings-summary-card">
+              <div class="summary-icon month"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></div>
+              <div>
+                <span class="summary-label">សន្សំបានខែនេះ</span>
+                <b class="summary-value" id="savingsMonthAmount">៛0</b>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overall Progress Bar -->
+          <div class="overall-progress-wrapper" style="margin-top: 18px;">
+            <div class="overall-progress-info">
+              <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">កម្រិតសន្សំសរុបរួម (Overall Progress)</span>
+              <b id="overallProgressPctText" style="font-size: 13px; color: var(--accent-primary);">0%</b>
+            </div>
+            <div class="bar-track" style="height: 10px; margin-top: 6px;">
+              <i class="bar-fill" id="overallProgressBar" style="width: 0%;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Saving Plan Cards Grid Section -->
+        <div class="section-title-row" style="margin-top: 24px; margin-bottom: 14px;">
+          <h3 style="display:flex; align-items:center; gap:8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-primary);"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2 2.5-2.5 2.5-6 1.5-7.5-.7-1-1.2-1.5-2-2z"/><path d="M16 11h.01"/></svg>
+            <span>បញ្ជីផែនការសន្សំ (Saving Plans)</span>
+          </h3>
+        </div>
+        <div class="saving-plans-grid" id="savingPlansGrid">
+          <!-- Dynamically Rendered Saving Plan Cards -->
+        </div>
+
+        <!-- Savings History Section -->
+        <div class="glass-card" style="margin-top: 28px;">
+          <div class="card-header" style="margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-primary);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
+              <span>ប្រវត្តិសន្សំប្រាក់ (Savings History)</span>
+            </h3>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <input type="text" id="savingsHistorySearch" placeholder="ស្វែងរកប្រវត្តិ..." class="select-input" style="padding: 6px 12px; font-size: 12px; max-width: 180px;">
+              <select id="savingsHistoryFilter" class="select-input" style="padding: 6px 12px; font-size: 12px;">
+                <option value="all">ផែនការទាំងអស់</option>
+              </select>
+            </div>
+          </div>
+          <div id="savingsHistoryList">
+            <!-- Dynamically Rendered Savings Deposit History -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Create/Edit Plan Modal -->
+  <div class="modal-backdrop" id="planModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header">
+        <h3 id="planModalTitle">បង្កើតផែនការសន្សំប្រាក់</h3>
+        <button class="close-btn" id="closePlanModal" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label>ឈ្មោះផែនការ (Plan Name)</label>
+        <input id="planName" placeholder="ឧ. ទិញទូរស័ព្ទថ្មី, ទិញម៉ូតូ, សន្សំអាសន្ន..." autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>ចំនួនទឹកប្រាក់គោលដៅ (Goal Amount)</label>
+        <div class="amount-input-group">
+          <input id="planGoal" type="number" step="0.01" placeholder="500.00">
+          <select id="planCurrency" class="select-input modal-currency-select">
+            <option value="$">$ (USD)</option>
+            <option value="៛">៛ (រៀល)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>ប្រាក់សន្សំបានស្រាប់ (Current Saved Amount)</label>
+        <input id="planSaved" type="number" step="0.01" placeholder="0.00">
+      </div>
+
+      <div class="form-group">
+        <label>កាលបរិច្ឆេទកំណត់សម្រេច (Target Date)</label>
+        <input id="planTargetDate" type="date">
+      </div>
+
+      <div class="form-group">
+        <label>ប្រភេទផែនការ (Category)</label>
+        <select id="planCategory" class="select-input">
+          <option value="បច្ចេកវិទ្យា">📱 ទូរស័ព្ទ / បច្ចេកវិទ្យា</option>
+          <option value="ផ្ទះ/ឡាន">🏠 ផ្ទះ / យានយន្ត</option>
+          <option value="ដើរលេង">✈️ កម្សាន្ត / ដើរលេង</option>
+          <option value="ការសិក្សា">🎓 ការសិក្សា / ចំនេះដឹង</option>
+          <option value="អាសន្ន">🏥 មូលនិធិអាសន្ន</option>
+          <option value="ផ្សេងៗ">📦 ផ្សេងៗ</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>កំណត់ចំណាំ</label>
+        <textarea id="planNote" placeholder="កំណត់ចំណាំបន្ថែម..."></textarea>
+      </div>
+
+      <button class="btn-primary btn-full" id="savePlanBtn" type="button">រក្សាទុកផែនការសន្សំ</button>
+    </div>
+  </div>
+
+  <!-- Deposit Savings Modal -->
+  <div class="modal-backdrop" id="depositModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header">
+        <h3>+ បន្ថែមប្រាក់សន្សំ (Add Savings)</h3>
+        <button class="close-btn" id="closeDepositModal" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label>ជ្រើសរើសផែនការសន្សំ</label>
+        <select id="depositPlanSelect" class="select-input"></select>
+      </div>
+
+      <div class="form-group">
+        <label>ចំនួនទឹកប្រាក់សន្សំ (Amount)</label>
+        <div class="amount-input-group">
+          <input id="depositAmount" type="number" step="0.01" placeholder="10.00">
+          <select id="depositCurrency" class="select-input modal-currency-select">
+            <option value="$">$ (USD)</option>
+            <option value="៛">៛ (រៀល)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>ប្រភពប្រាក់ / វិធីទូទាត់ (Payment Source)</label>
+        <select id="depositSource" class="select-input">
+          <option value="ABA Bank">💳 ABA Bank</option>
+          <option value="វីង">📲 វីង (Wing)</option>
+          <option value="ACLEDA">🏦 ACLEDA Mobile</option>
+          <option value="សាច់ប្រាក់">💵 សាច់ប្រាក់ (Cash)</option>
+          <option value="ផ្សេងៗ">📦 ផ្សេងៗ</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>កាលបរិច្ឆេទ</label>
+        <input id="depositDate" type="date">
+      </div>
+
+      <div class="form-group">
+        <label>កំណត់ចំណាំ</label>
+        <input id="depositNote" placeholder="ឧ. សន្សំប្រាក់បន្ថែមប្រចាំសប្ដាហ៍..." autocomplete="off">
+      </div>
+
+      <button class="btn-primary btn-full" id="saveDepositBtn" type="button">រក្សាទុកការសន្សំ</button>
+    </div>
+  </div>
+
+  <!-- Mobile Floating Action Button (FAB) -->
+  <button class="mobile-fab" id="mobileFab" title="បន្ថែមប្រតិបត្តិការ">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+  </button>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <button class="mobile-nav-btn active" data-page="dashboard">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>ទំព័រដើម</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="transactions">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/><path d="M12 4v16"/></svg>
+      <span>ប្រតិបត្តិការ</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="budget">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      <span>ថវិកា</span>
+    </button>
+    <button class="mobile-nav-btn" data-page="savings">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2 2.5-2.5 2.5-6 1.5-7.5-.7-1-1.2-1.5-2-2z"/><path d="M16 11h.01"/></svg>
+      <span>សន្សំប្រាក់</span>
+    </button>
+    <button class="mobile-nav-btn" id="openMoreNavBtn" type="button">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+      <span>ផ្សេងៗ</span>
+    </button>
+  </nav>
+
+  <!-- Glassmorphic "More" Mobile Navigation Bottom Sheet -->
+  <div class="modal-backdrop" id="moreNavModal">
+    <div class="modal-sheet more-nav-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header" style="margin-bottom: 14px;">
+        <h3>មឺនុយផ្សេងៗ (More Menu)</h3>
+        <button class="close-btn" id="closeMoreNavBtn" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="more-nav-grid">
+        <button class="more-menu-item" data-more-page="ai" type="button">
+          <div class="more-menu-icon ai-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg>
+          </div>
+          <div class="more-menu-info">
+            <div class="more-menu-title">
+              <b>AI Money Assistant</b>
+              <span class="badge badge-primary" style="font-size:10px; padding:2px 6px;">AI ឆ្លាតវៃ</span>
+            </div>
+            <p>វិភាគចំណាយ និងបញ្ចូលប្រតិបត្តិការស្វ័យប្រវត្តិ</p>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <button class="more-menu-item" data-more-page="settings" type="button">
+          <div class="more-menu-icon settings-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="more-menu-info">
+            <div class="more-menu-title">
+              <b>ការកំណត់ (Settings)</b>
+            </div>
+            <p>កំណត់ Theme, រូបិយប័ណ្ណ និង Preset AI</p>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal / Bottom Sheet -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal-sheet">
+      <!-- Touch handle for mobile bottom sheet -->
+      <div class="sheet-handle"></div>
+
+      <div class="modal-header">
+        <h3 id="modalHeaderTitle">បន្ថែមប្រតិបត្តិការ</h3>
+        <button class="close-btn" id="closeModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="type-segmented-control">
+        <button class="type-btn active" data-type="expense">ចំណាយ (-)</button>
+        <button class="type-btn" data-type="income">ចំណូល (+)</button>
+      </div>
+
+      <div class="form-group">
+        <label>ឈ្មោះប្រតិបត្តិការ</label>
+        <input id="title" placeholder="ឧ. កាហ្វេ, WiFi, ប្រាក់ខែ..." autocomplete="off">
+        <div class="title-quick-templates" id="titleTemplatesContainer"></div>
+      </div>
+
+      <div class="form-group">
+        <label>ចំនួនទឹកប្រាក់ ($1 = 4,000 ៛)</label>
+        <div class="amount-input-group">
+          <input id="amount" type="number" step="0.01" placeholder="0.00">
+          <select id="modalCurrency" class="select-input modal-currency-select">
+            <option value="៛">៛ (រៀល)</option>
+            <option value="$">$ (USD)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>ប្រភេទ</label>
+        <select id="category" class="select-input">
+          <option value="ម្ហូបអាហារ">ម្ហូបអាហារ</option>
+          <option value="WiFi / Internet">WiFi / Internet</option>
+          <option value="YouTube Premium">YouTube Premium</option>
+          <option value="ទូរស័ព្ទ / កាត">ទូរស័ព្ទ / កាត</option>
+          <option value="កាហ្វេ">កាហ្វេ</option>
+          <option value="បាយ">បាយ</option>
+          <option value="ទំនាក់ទំនង">ទំនាក់ទំនង</option>
+          <option value="ដឹកជញ្ជូន">ដឹកជញ្ជូន</option>
+          <option value="ប្រាក់ខែ">ប្រាក់ខែ</option>
+          <option value="ផ្សេងៗ">ផ្សេងៗ</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>កាលបរិច្ឆេទ</label>
+        <input id="date" type="date">
+      </div>
+
+      <div class="form-group">
+        <label>កំណត់ចំណាំ</label>
+        <textarea id="note" placeholder="កំណត់ចំណាំបន្ថែម (ជាជម្រើស)..."></textarea>
+      </div>
+
+      <button class="btn-primary btn-full" id="saveTx">រក្សាទុកប្រតិបត្តិការ</button>
+    </div>
+  </div>
+
+  <!-- Login & Sign Up Authentication Modal -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-sheet auth-modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header" style="justify-content: flex-end; border-bottom: none; padding-bottom: 0;">
+        <button class="close-btn" id="closeAuthModal" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Auth Brand Header -->
+      <div class="auth-brand-header">
+        <div class="auth-logo-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h2>MY MONEY</h2>
+        <p>ស្វាគមន៍មកកាន់ MY MONEY</p>
+      </div>
+
+      <!-- Tab Segmented Switcher -->
+      <div class="type-segmented-control" style="margin-bottom: 20px;">
+        <button class="type-btn active" id="authTabLogin" type="button">ចូលប្រើប្រាស់ (Login)</button>
+        <button class="type-btn" id="authTabSignUp" type="button">ចុះឈ្មោះ (Sign Up)</button>
+      </div>
+
+      <!-- LOGIN FORM VIEW -->
+      <div id="loginView" class="auth-form-view active">
+        <div class="form-group">
+          <label>Email / Username</label>
+          <input type="text" id="loginEmail" placeholder="ឧ. user@example.com ឬ username" autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-password-wrapper">
+            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('loginPassword', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-options-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="loginRemember" checked>
+            <span>Remember me</span>
+          </label>
+          <button type="button" class="auth-link-btn" id="forgotPassBtn">Forgot password?</button>
+        </div>
+
+        <button class="btn-primary btn-full" id="loginSubmitBtn" type="button" style="margin-top: 16px;">
+          <span>Login</span>
+        </button>
+
+        <div class="auth-switch-text">
+          <span>Don't have an account?</span>
+          <button type="button" class="auth-link-btn" id="switchToSignUp">Sign Up</button>
+        </div>
+
+        <div class="auth-divider">
+          <span>OR CONTINUE WITH</span>
+        </div>
+
+        <div class="social-buttons-grid">
+          <button type="button" class="social-auth-btn social-google" onclick="triggerComingSoon('Google Auth')">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            <span>Google</span>
+            <span class="coming-soon-chip">Coming Soon</span>
+          </button>
+
+          <button type="button" class="social-auth-btn social-telegram" onclick="triggerComingSoon('Telegram Auth')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0088cc"><path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"/></svg>
+            <span>Telegram</span>
+            <span class="coming-soon-chip">Coming Soon</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SIGN UP FORM VIEW -->
+      <div id="signUpView" class="auth-form-view">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signUpFullName" placeholder="ឧ. សុខ ចាន់">
+        </div>
+
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="signUpUsername" placeholder="ឧ. sokchan123" autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="signUpEmail" placeholder="ឧ. user@example.com" autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-password-wrapper">
+            <input type="password" id="signUpPassword" placeholder="••••••••" autocomplete="new-password">
+            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('signUpPassword', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="input-password-wrapper">
+            <input type="password" id="signUpConfirmPassword" placeholder="••••••••" autocomplete="new-password">
+            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('signUpConfirmPassword', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-options-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="signUpTerms" checked>
+            <span>I agree to Terms & Conditions</span>
+          </label>
+        </div>
+
+        <button class="btn-primary btn-full" id="signUpSubmitBtn" type="button" style="margin-top: 16px;">
+          <span>Create Account</span>
+        </button>
+
+        <div class="auth-switch-text">
+          <span>Already have an account?</span>
+          <button type="button" class="auth-link-btn" id="switchToLogin">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Coming Soon Notification Modal -->
+  <div class="modal-backdrop" id="comingSoonModal">
+    <div class="modal-sheet" style="max-width: 440px; text-align: center; padding: 28px 24px;">
+      <div class="sheet-handle"></div>
+      <div class="coming-soon-icon-circle">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+
+      <span class="badge badge-primary" style="margin-top: 14px; margin-bottom: 8px;">🚀 System Under Development</span>
+      <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Account System Coming Soon</h3>
+      
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-top: 10px; margin-bottom: 20px;">
+        Account login, cloud sync, backup, and multi-device synchronization are currently under development.
+      </p>
+
+      <button class="btn-primary btn-full" id="closeComingSoonBtn" type="button">យល់ព្រម (Understand)</button>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast-notification"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
