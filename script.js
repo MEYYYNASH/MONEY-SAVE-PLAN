@@ -276,6 +276,7 @@ function render() {
 
 // Plan Metrics Calculation Helper
 function calcPlanMetrics(plan) {
+  if (!plan) plan = {};
   const goal = Number(plan.goal) || 0;
   const saved = Number(plan.saved) || 0;
   const remaining = Math.max(0, goal - saved);
@@ -283,11 +284,13 @@ function calcPlanMetrics(plan) {
   const isCompleted = saved >= goal;
 
   const today = new Date(getTodayLocalStr());
-  const target = new Date(plan.targetDate || getTodayLocalStr());
-  const diffTime = target - today;
-  const daysRemaining = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
-  const monthsRemaining = Math.max(1, Math.ceil(daysRemaining / 30.4));
-  const weeksRemaining = Math.max(1, Math.ceil(daysRemaining / 7));
+  let target = new Date(plan.targetDate || getTodayLocalStr());
+  if (isNaN(target.getTime())) target = today;
+
+  const diffTime = target.getTime() - today.getTime();
+  const daysRemaining = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1);
+  const monthsRemaining = Math.max(1, Math.ceil(daysRemaining / 30.4) || 1);
+  const weeksRemaining = Math.max(1, Math.ceil(daysRemaining / 7) || 1);
 
   const reqDaily = remaining / daysRemaining;
   const reqWeekly = remaining / weeksRemaining;
@@ -301,9 +304,9 @@ function calcPlanMetrics(plan) {
     isCompleted,
     daysRemaining,
     monthsRemaining,
-    reqDaily,
-    reqWeekly,
-    reqMonthly
+    reqDaily: isNaN(reqDaily) ? 0 : reqDaily,
+    reqWeekly: isNaN(reqWeekly) ? 0 : reqWeekly,
+    reqMonthly: isNaN(reqMonthly) ? 0 : reqMonthly
   };
 }
 
@@ -1226,7 +1229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Save Saving Plan (Create / Edit) - 2.5 Second Multi-step Progress Animation
+  // Save Saving Plan (Create / Edit) - Robust Multi-step Progress Sequence
   const savePlanBtn = $("#savePlanBtn");
   if (savePlanBtn) {
     savePlanBtn.onclick = () => {
@@ -1242,60 +1245,65 @@ document.addEventListener("DOMContentLoaded", () => {
         return alert("សូមបញ្ចូលឈ្មោះ និងចំនួនទឹកប្រាក់គោលដៅឲ្យបានត្រឹមត្រូវ");
       }
 
-      // Step 1 (0.0s - 1.5s): "កំពុងបង្កើតទិន្នន័យ..." (1.5 seconds)
+      // Step 1: "កំពុងបង្កើតទិន្នន័យ..."
       setButtonLoading(savePlanBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
 
       setTimeout(() => {
-        // Step 2 (1.5s - 2.5s): "កំពុងរក្សាទុក..." (1.0 second)
+        // Step 2: "កំពុងរក្សាទុក..."
         setButtonLoading(savePlanBtn, true, "កំពុងរក្សាទុក...");
         const bar = $("#topLoadingBar");
         if (bar) bar.style.width = "85%";
 
         setTimeout(() => {
-          // Step 3 (at 2.5s): Finish & "រួចរាល់"
-          if (selectedCurrency === "$") {
-            rawGoal = rawGoal * EXCHANGE_RATE;
-            rawSaved = rawSaved * EXCHANGE_RATE;
-          }
+          try {
+            if (selectedCurrency === "$") {
+              rawGoal = rawGoal * EXCHANGE_RATE;
+              rawSaved = rawSaved * EXCHANGE_RATE;
+            }
 
-          data.savingPlans = data.savingPlans || [];
+            data.savingPlans = data.savingPlans || [];
 
-          if (editingPlanId) {
-            const index = data.savingPlans.findIndex(x => x.id === editingPlanId);
-            if (index !== -1) {
-              data.savingPlans[index] = {
-                ...data.savingPlans[index],
+            if (editingPlanId) {
+              const index = data.savingPlans.findIndex(x => x.id === editingPlanId);
+              if (index !== -1) {
+                data.savingPlans[index] = {
+                  ...data.savingPlans[index],
+                  name,
+                  goal: rawGoal,
+                  saved: rawSaved,
+                  targetDate,
+                  category,
+                  note
+                };
+              }
+            } else {
+              data.savingPlans.push({
+                id: Date.now(),
                 name,
                 goal: rawGoal,
                 saved: rawSaved,
                 targetDate,
                 category,
                 note
-              };
+              });
             }
-          } else {
-            data.savingPlans.push({
-              id: Date.now(),
-              name,
-              goal: rawGoal,
-              saved: rawSaved,
-              targetDate,
-              category,
-              note
-            });
-          }
 
-          save();
-          closePlanModal();
-          setButtonLoading(savePlanBtn, false);
-          showToast("រួចរាល់! បានរក្សាទុកផែនការសន្សំប្រាក់!", "success");
-        }, 1000);
-      }, 1500);
+            save();
+            closePlanModal();
+            showToast("រួចរាល់! បានរក្សាទុកផែនការសន្សំប្រាក់!", "success");
+          } catch (err) {
+            console.error("Save Plan Error:", err);
+            alert("មានបញ្ហាក្នុងការរក្សាទុកផែនការសន្សំ សូមព្យាយាមម្តងទៀត");
+          } finally {
+            setButtonLoading(savePlanBtn, false);
+          }
+        }, 700);
+      }, 800);
     };
   }
 
-  // Save Deposit - 2.5 Second Multi-step Progress Animation
+  // Save Deposit - Robust Multi-step Progress Sequence
   const saveDepositBtn = $("#saveDepositBtn");
   if (saveDepositBtn) {
     saveDepositBtn.onclick = () => {
@@ -1313,40 +1321,45 @@ document.addEventListener("DOMContentLoaded", () => {
       const p = (data.savingPlans || []).find(x => x.id === planId);
       if (!p) return alert("រកមិនឃើញផែនការសន្សំទេ");
 
-      // Step 1 (0.0s - 1.5s): "កំពុងបង្កើតទិន្នន័យ..." (1.5 seconds)
+      // Step 1: "កំពុងបង្កើតទិន្នន័យ..."
       setButtonLoading(saveDepositBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
 
       setTimeout(() => {
-        // Step 2 (1.5s - 2.5s): "កំពុងរក្សាទុក..." (1.0 second)
+        // Step 2: "កំពុងរក្សាទុក..."
         setButtonLoading(saveDepositBtn, true, "កំពុងរក្សាទុក...");
         const bar = $("#topLoadingBar");
         if (bar) bar.style.width = "85%";
 
         setTimeout(() => {
-          // Step 3 (at 2.5s): Finish & "រួចរាល់"
-          if (selectedCurrency === "$") {
-            rawAmount = rawAmount * EXCHANGE_RATE;
+          try {
+            if (selectedCurrency === "$") {
+              rawAmount = rawAmount * EXCHANGE_RATE;
+            }
+
+            p.saved = (Number(p.saved) || 0) + rawAmount;
+
+            data.savingsDeposits = data.savingsDeposits || [];
+            data.savingsDeposits.push({
+              id: Date.now(),
+              planId,
+              amount: rawAmount,
+              source,
+              date,
+              note
+            });
+
+            save();
+            closeDepositModal();
+            showToast("រួចរាល់! បានបន្ថែមប្រាក់សន្សំ!", "success");
+          } catch (err) {
+            console.error("Save Deposit Error:", err);
+            alert("មានបញ្ហាក្នុងការបន្ថែមប្រាក់សន្សំ សូមព្យាយាមម្តងទៀត");
+          } finally {
+            setButtonLoading(saveDepositBtn, false);
           }
-
-          p.saved = (Number(p.saved) || 0) + rawAmount;
-
-          data.savingsDeposits = data.savingsDeposits || [];
-          data.savingsDeposits.push({
-            id: Date.now(),
-            planId,
-            amount: rawAmount,
-            source,
-            date,
-            note
-          });
-
-          save();
-          closeDepositModal();
-          setButtonLoading(saveDepositBtn, false);
-          showToast("រួចរាល់! បានបន្ថែមប្រាក់សន្សំ!", "success");
-        }, 1000);
-      }, 1500);
+        }, 700);
+      }, 800);
     };
   }
 
