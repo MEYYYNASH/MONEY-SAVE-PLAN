@@ -966,13 +966,11 @@ window.editPlan = function(id) {
 };
 
 window.deletePlan = function(id) {
-  if (confirm("តើអ្នកពិតជាចង់លុបផែនការសន្សំប្រាក់នេះមែនទេ?")) {
-    startTopLoader();
-    data.savingPlans = (data.savingPlans || []).filter(x => x.id !== id);
-    data.savingsDeposits = (data.savingsDeposits || []).filter(x => x.planId !== id);
-    save();
-    showToast("បានលុបផែនការសន្សំប្រាក់!");
-  }
+  startTopLoader();
+  data.savingPlans = (data.savingPlans || []).filter(x => x.id !== id);
+  data.savingsDeposits = (data.savingsDeposits || []).filter(x => x.planId !== id);
+  save();
+  showToast("បានលុបផែនការសន្សំប្រាក់!", "success");
 };
 
 // Deposit Savings Modal Handlers
@@ -1005,18 +1003,16 @@ function closeDepositModal() {
 }
 
 window.deleteDeposit = function(id) {
-  if (confirm("តើអ្នកពិតជាចង់លុបប្រវត្តិសន្សំប្រាក់នេះមែនទេ?")) {
-    startTopLoader();
-    const d = (data.savingsDeposits || []).find(x => x.id === id);
-    if (d) {
-      const p = (data.savingPlans || []).find(x => x.id === d.planId);
-      if (p) {
-        p.saved = Math.max(0, p.saved - d.amount);
-      }
-      data.savingsDeposits = (data.savingsDeposits || []).filter(x => x.id !== id);
-      save();
-      showToast("បានលុបប្រវត្តិសន្សំ!");
+  startTopLoader();
+  const d = (data.savingsDeposits || []).find(x => x.id === id);
+  if (d) {
+    const p = (data.savingPlans || []).find(x => x.id === d.planId);
+    if (p) {
+      p.saved = Math.max(0, (Number(p.saved) || 0) - d.amount);
     }
+    data.savingsDeposits = (data.savingsDeposits || []).filter(x => x.id !== id);
+    save();
+    showToast("បានលុបប្រវត្តិសន្សំប្រាក់!", "success");
   }
 };
 
