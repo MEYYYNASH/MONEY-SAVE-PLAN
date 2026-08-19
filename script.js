@@ -40,13 +40,14 @@ let data = JSON.parse(localStorage.getItem(KEY) || "null") || {
     { id: 1, label: "កាហ្វេ 2$", text: "កាហ្វេ 2$" },
     { id: 2, label: "WiFi 15$", text: "បង់ WiFi 15$" },
     { id: 3, label: "ប្រាក់ខែ 400$", text: "ប្រាក់ខែ 400$" },
-    { id: 4, label: "បាយ 3.5$", text: "បាយថ្ងៃត្រង់ 3.5$" }
+    { id: 4, label: "សន្សំ +៛2 Trillion", text: "សន្សំ 2000000000000៛ ចូលក្នុងផែនការ" }
   ],
   transactions: [
     { id: 1, title: "ប្រាក់ខែ", amount: 1600000, type: "income", category: "ប្រាក់ខែ", date: getTodayLocalStr(), note: "ប្រាក់ខែប្រចាំខែ ($400)" },
     { id: 2, title: "បង់ WiFi", amount: 60000, type: "expense", category: "WiFi / Internet", date: getTodayLocalStr(), note: "បង់សេវាអ៊ិនធឺណិត ($15)" },
     { id: 3, title: "កាហ្វេ", amount: 8000, type: "expense", category: "កាហ្វេ", date: getTodayLocalStr(), note: "$2" },
-    { id: 4, title: "បាយថ្ងៃត្រង់", amount: 14000, type: "expense", category: "ម្ហូបអាហារ", date: getTodayLocalStr(), note: "$3.5" }
+    { id: 4, title: "បាយថ្ងៃត្រង់", amount: 14000, type: "expense", category: "ម្ហូបអាហារ", date: getTodayLocalStr(), note: "$3.5" },
+    { id: 5, title: "សន្សំទុនវិនិយោគ", amount: 2000000000000, type: "income", category: "ការវិនិយោគ", date: getTodayLocalStr(), note: "សន្សំ +៛2,000,000,000,000 ($500,000,000 USD)" }
   ],
   savingPlans: [
     {
@@ -57,6 +58,15 @@ let data = JSON.parse(localStorage.getItem(KEY) || "null") || {
       targetDate: "2026-12-31",
       category: "បច្ចេកវិទ្យា",
       note: "សន្សំទិញ iPhone"
+    },
+    {
+      id: 2,
+      name: "ផែនការសន្សំធំ (Grand Saving Plan)",
+      goal: 5000000000000,
+      saved: 2000000000000,
+      targetDate: "2030-12-31",
+      category: "ផ្សេងៗ",
+      note: "សន្សំ +៛2,000,000,000,000 ($500,000,000 USD)"
     }
   ],
   savingsDeposits: [
@@ -67,6 +77,14 @@ let data = JSON.parse(localStorage.getItem(KEY) || "null") || {
       date: getTodayLocalStr(),
       source: "ABA Bank",
       note: "សន្សំលើកដំបូង"
+    },
+    {
+      id: 102,
+      planId: 2,
+      amount: 2000000000000,
+      date: getTodayLocalStr(),
+      source: "ABA Bank",
+      note: "សន្សំ +៛2,000,000,000,000 ($500M)"
     }
   ]
 };
@@ -754,7 +772,8 @@ function smartCategory(text) {
 
 // Smart Amount Parser ($1 = 4000 ៛ Conversion)
 function parseAmount(text) {
-  const m = text.match(/(\d+(?:\.\d+)?)\s*(\$|៛|usd)?/i);
+  const clean = (text || "").replace(/,/g, "");
+  const m = clean.match(/(\d+(?:\.\d+)?)\s*(\$|៛|usd)?/i);
   if (!m) return 0;
   const num = parseFloat(m[1]);
   const unit = m[2] || "";
