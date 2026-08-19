@@ -1229,15 +1229,16 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Save Saving Plan (Create / Edit) - Robust Multi-step Progress Sequence
+  // Save Saving Plan (Create / Edit) - Zero-Barrier Automatic Fallback Sequence
   const savePlanBtn = $("#savePlanBtn");
   if (savePlanBtn) {
     savePlanBtn.onclick = () => {
       const nameEl = $("#planName");
-      const name = nameEl ? nameEl.value.trim() : "";
+      const name = nameEl && nameEl.value.trim() ? nameEl.value.trim() : "ផែនការសន្សំថ្មី";
       
       const goalStr = ($("#planGoal")?.value || "").replace(/[^0-9.]/g, "");
       let rawGoal = parseFloat(goalStr);
+      if (isNaN(rawGoal) || rawGoal <= 0) rawGoal = 100; // Default $100 goal
 
       const savedStr = ($("#planSaved")?.value || "").replace(/[^0-9.]/g, "");
       let rawSaved = parseFloat(savedStr) || 0;
@@ -1246,10 +1247,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const targetDate = $("#planTargetDate")?.value || getTodayLocalStr();
       const category = $("#planCategory")?.value || "ផ្សេងៗ";
       const note = $("#planNote") ? $("#planNote").value : "";
-
-      if (!name || isNaN(rawGoal) || rawGoal <= 0) {
-        return alert("សូមបញ្ចូលឈ្មោះ និងចំនួនទឹកប្រាក់គោលដៅឲ្យបានត្រឹមត្រូវ");
-      }
 
       setButtonLoading(savePlanBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
@@ -1309,27 +1306,42 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Save Deposit - Robust Multi-step Progress Sequence
+  // Save Deposit - Zero-Barrier Automatic Fallback Sequence
   const saveDepositBtn = $("#saveDepositBtn");
   if (saveDepositBtn) {
     saveDepositBtn.onclick = () => {
       const planSelect = $("#depositPlanSelect");
-      const planId = planSelect ? parseInt(planSelect.value, 10) : null;
+      let planId = planSelect ? parseInt(planSelect.value, 10) : null;
       
       const amountStr = ($("#depositAmount")?.value || "").replace(/[^0-9.]/g, "");
       let rawAmount = parseFloat(amountStr);
+      if (isNaN(rawAmount) || rawAmount <= 0) rawAmount = 10; // Default $10 deposit
 
       const selectedCurrency = $("#depositCurrency")?.value || "$";
       const source = $("#depositSource")?.value || "សាច់ប្រាក់";
       const date = $("#depositDate")?.value || getTodayLocalStr();
       const note = $("#depositNote") ? $("#depositNote").value : "";
 
-      if (isNaN(rawAmount) || rawAmount <= 0) {
-        return alert("សូមបញ្ចូលចំនួនទឹកប្រាក់សន្សំឲ្យបានត្រឹមត្រូវ");
+      let p = (data.savingPlans || []).find(x => x.id === planId);
+      if (!p && data.savingPlans && data.savingPlans.length) {
+        p = data.savingPlans[0];
+        planId = p.id;
       }
 
-      const p = (data.savingPlans || []).find(x => x.id === planId);
-      if (!p) return alert("រកមិនឃើញផែនការសន្សំទេ");
+      if (!p) {
+        // Automatically create a default saving plan if none exists
+        p = {
+          id: Date.now(),
+          name: "ផែនការសន្សំដំបូង",
+          goal: 500 * EXCHANGE_RATE,
+          saved: 0,
+          targetDate: getTodayLocalStr(),
+          category: "ផ្សេងៗ",
+          note: ""
+        };
+        data.savingPlans = data.savingPlans || [];
+        data.savingPlans.push(p);
+      }
 
       setButtonLoading(saveDepositBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
@@ -1350,7 +1362,7 @@ document.addEventListener("DOMContentLoaded", () => {
             data.savingsDeposits = data.savingsDeposits || [];
             data.savingsDeposits.push({
               id: Date.now(),
-              planId,
+              planId: p.id,
               amount: rawAmount,
               source,
               date,
