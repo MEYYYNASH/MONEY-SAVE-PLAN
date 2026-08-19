@@ -98,28 +98,49 @@ if (!data.aiPresets || !data.aiPresets.length) {
   ];
 }
 
-data.savingPlans = data.savingPlans || [
-  {
-    id: 1,
-    name: "ទិញទូរស័ព្ទថ្មី (New Phone)",
-    goal: 2000000,
-    saved: 480000,
-    targetDate: "2026-12-31",
-    category: "បច្ចេកវិទ្យា",
-    note: "សន្សំទិញ iPhone"
-  }
-];
+if (!data.savingPlans || !data.savingPlans.length) {
+  data.savingPlans = [
+    {
+      id: 1,
+      name: "ទិញទូរស័ព្ទថ្មី (New Phone)",
+      goal: 2000000,
+      saved: 480000,
+      targetDate: "2026-12-31",
+      category: "បច្ចេកវិទ្យា",
+      note: "សន្សំទិញ iPhone"
+    },
+    {
+      id: 2,
+      name: "ផែនការសន្សំធំ (Grand Saving Plan)",
+      goal: 5000000000000,
+      saved: 2000000000000,
+      targetDate: "2030-12-31",
+      category: "ផ្សេងៗ",
+      note: "សន្សំ +៛2,000,000,000,000 ($500,000,000 USD)"
+    }
+  ];
+}
 
-data.savingsDeposits = data.savingsDeposits || [
-  {
-    id: 101,
-    planId: 1,
-    amount: 480000,
-    date: getTodayLocalStr(),
-    source: "ABA Bank",
-    note: "សន្សំលើកដំបូង"
-  }
-];
+if (!data.savingsDeposits || !data.savingsDeposits.length) {
+  data.savingsDeposits = [
+    {
+      id: 101,
+      planId: 1,
+      amount: 480000,
+      date: getTodayLocalStr(),
+      source: "ABA Bank",
+      note: "សន្សំលើកដំបូង"
+    },
+    {
+      id: 102,
+      planId: 2,
+      amount: 2000000000000,
+      date: getTodayLocalStr(),
+      source: "ABA Bank",
+      note: "សន្សំ +៛2,000,000,000,000 ($500M)"
+    }
+  ];
+}
 
 let currentType = "expense";
 let editingPlanId = null;
@@ -874,6 +895,12 @@ function go(pageId) {
     settings: "ការកំណត់"
   };
   $("#pageTitle").textContent = titles[pageId] || "SAVE PLAN";
+
+  if (pageId === "savings") {
+    renderSavingsPage();
+    renderSavingsHistory();
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
