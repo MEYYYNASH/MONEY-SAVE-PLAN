@@ -7,34 +7,34 @@
   --font-family: 'Inter', 'Noto Sans Khmer', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Dark Glass Theme (Default) */
-  --bg-app: #0b0f19;
-  --bg-sidebar: rgba(15, 22, 36, 0.75);
-  --bg-glass: rgba(22, 31, 48, 0.65);
-  --bg-glass-hover: rgba(30, 42, 64, 0.75);
-  --bg-input: rgba(16, 24, 38, 0.8);
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-glass-strong: rgba(255, 255, 255, 0.15);
+  --bg-app: #090d16;
+  --bg-sidebar: rgba(14, 21, 35, 0.8);
+  --bg-glass: rgba(20, 29, 46, 0.65);
+  --bg-glass-hover: rgba(28, 40, 62, 0.8);
+  --bg-input: rgba(14, 21, 35, 0.85);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --border-glass-strong: rgba(255, 255, 255, 0.18);
   
-  --text-main: #f0f4f8;
-  --text-muted: #8e9bb0;
-  --text-dim: #5c687a;
+  --text-main: #f3f7fc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
   
   --accent-primary: #00e5ff;
-  --accent-primary-glow: rgba(0, 229, 255, 0.25);
+  --accent-primary-glow: rgba(0, 229, 255, 0.28);
   --accent-income: #10b981;
-  --accent-income-bg: rgba(16, 185, 129, 0.12);
+  --accent-income-bg: rgba(16, 185, 129, 0.14);
   --accent-expense: #f43f5e;
-  --accent-expense-bg: rgba(244, 63, 94, 0.12);
+  --accent-expense-bg: rgba(244, 63, 94, 0.14);
   
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --shadow-glow: 0 0 20px rgba(0, 229, 255, 0.15);
+  --shadow-glass: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 24px rgba(0, 229, 255, 0.2);
   
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
   --radius-full: 9999px;
 
-  --backdrop-blur: blur(20px) saturate(180%);
+  --backdrop-blur: blur(28px) saturate(200%);
 }
 
 [data-theme="light"] {
@@ -1733,22 +1733,26 @@ select option, .select-input option {
     width: min(310px, 92vw);
   }
 
-  /* Mobile Bottom Navigation */
+  /* Mobile Dynamic Island Floating Glass Navigation Bar */
   .mobile-bottom-nav {
     display: flex;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 68px;
-    background: var(--bg-sidebar);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border-top: 1px solid var(--border-glass-strong);
+    bottom: max(14px, env(safe-area-inset-bottom));
+    left: 14px;
+    right: 14px;
+    height: 64px;
+    max-width: 480px;
+    margin: 0 auto;
+    background: rgba(12, 18, 30, 0.78);
+    backdrop-filter: blur(32px) saturate(220%);
+    -webkit-backdrop-filter: blur(32px) saturate(220%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 32px;
     z-index: 1000;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding: 0 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
   }
 
   .mobile-nav-btn {
@@ -1757,42 +1761,74 @@ select option, .select-input option {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    height: 100%;
+    gap: 3px;
+    height: 52px;
+    border-radius: 24px;
     color: var(--text-muted);
     font-size: 10px;
     font-weight: 600;
-    transition: color 0.2s;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, background-color 0.2s ease;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .mobile-nav-btn:active {
+    transform: scale(0.86);
+  }
+
+  .mobile-nav-btn svg {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .mobile-nav-btn.active {
     color: var(--accent-primary);
+    background: rgba(0, 229, 255, 0.12);
   }
 
   .mobile-nav-btn.active svg {
-    filter: drop-shadow(0 0 8px var(--accent-primary-glow));
+    transform: translateY(-1px) scale(1.1);
+    filter: drop-shadow(0 0 10px var(--accent-primary));
+  }
+
+  .mobile-nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-primary);
+    animation: pillDotGlow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pillDotGlow {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
   }
 
   /* Mobile Floating Action Button (FAB) */
   .mobile-fab {
     display: flex;
     position: fixed;
-    bottom: 82px;
-    right: 18px;
+    bottom: max(90px, calc(env(safe-area-inset-bottom) + 80px));
+    right: 20px;
     z-index: 999;
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent-primary), #0055ff);
     color: #fff;
-    box-shadow: 0 8px 24px var(--accent-primary-glow);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 30px rgba(0, 229, 255, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .mobile-fab:active {
-    transform: scale(0.92);
+    transform: scale(0.86);
   }
 
   /* Mobile Bottom Sheet Modal */
