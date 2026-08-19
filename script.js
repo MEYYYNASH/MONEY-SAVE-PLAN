@@ -848,7 +848,7 @@ function go(pageId) {
     savings: "ផែនការសន្សំប្រាក់ (Saving Plans)",
     settings: "ការកំណត់"
   };
-  $("#pageTitle").textContent = titles[pageId] || "My Money";
+  $("#pageTitle").textContent = titles[pageId] || "SAVE PLAN";
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
