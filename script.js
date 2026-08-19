@@ -140,7 +140,9 @@ function startTopLoader() {
 function setButtonLoading(btn, isLoading, loadingText = "កំពុងដំណើរការ...") {
   if (!btn) return;
   if (isLoading) {
-    btn.dataset.originalHtml = btn.innerHTML;
+    if (!btn.classList.contains("btn-loading")) {
+      btn.dataset.originalHtml = btn.innerHTML;
+    }
     btn.classList.add("btn-loading");
     btn.innerHTML = `
       <i class="roll-ring"></i>
@@ -150,6 +152,7 @@ function setButtonLoading(btn, isLoading, loadingText = "កំពុងដំ�
     btn.classList.remove("btn-loading");
     if (btn.dataset.originalHtml) {
       btn.innerHTML = btn.dataset.originalHtml;
+      delete btn.dataset.originalHtml;
     }
   }
 }
@@ -1223,7 +1226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Save Saving Plan (Create / Edit)
+  // Save Saving Plan (Create / Edit) - 2.5 Second Multi-step Progress Animation
   const savePlanBtn = $("#savePlanBtn");
   if (savePlanBtn) {
     savePlanBtn.onclick = () => {
@@ -1239,51 +1242,60 @@ document.addEventListener("DOMContentLoaded", () => {
         return alert("សូមបញ្ចូលឈ្មោះ និងចំនួនទឹកប្រាក់គោលដៅឲ្យបានត្រឹមត្រូវ");
       }
 
-      setButtonLoading(savePlanBtn, true, "កំពុងរក្សាទុក...");
+      // Step 1 (0.0s - 1.5s): "កំពុងបង្កើតទិន្នន័យ..." (1.5 seconds)
+      setButtonLoading(savePlanBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
 
       setTimeout(() => {
-        if (selectedCurrency === "$") {
-          rawGoal = rawGoal * EXCHANGE_RATE;
-          rawSaved = rawSaved * EXCHANGE_RATE;
-        }
+        // Step 2 (1.5s - 2.5s): "កំពុងរក្សាទុក..." (1.0 second)
+        setButtonLoading(savePlanBtn, true, "កំពុងរក្សាទុក...");
+        const bar = $("#topLoadingBar");
+        if (bar) bar.style.width = "85%";
 
-        data.savingPlans = data.savingPlans || [];
+        setTimeout(() => {
+          // Step 3 (at 2.5s): Finish & "រួចរាល់"
+          if (selectedCurrency === "$") {
+            rawGoal = rawGoal * EXCHANGE_RATE;
+            rawSaved = rawSaved * EXCHANGE_RATE;
+          }
 
-        if (editingPlanId) {
-          const index = data.savingPlans.findIndex(x => x.id === editingPlanId);
-          if (index !== -1) {
-            data.savingPlans[index] = {
-              ...data.savingPlans[index],
+          data.savingPlans = data.savingPlans || [];
+
+          if (editingPlanId) {
+            const index = data.savingPlans.findIndex(x => x.id === editingPlanId);
+            if (index !== -1) {
+              data.savingPlans[index] = {
+                ...data.savingPlans[index],
+                name,
+                goal: rawGoal,
+                saved: rawSaved,
+                targetDate,
+                category,
+                note
+              };
+            }
+          } else {
+            data.savingPlans.push({
+              id: Date.now(),
               name,
               goal: rawGoal,
               saved: rawSaved,
               targetDate,
               category,
               note
-            };
+            });
           }
-        } else {
-          data.savingPlans.push({
-            id: Date.now(),
-            name,
-            goal: rawGoal,
-            saved: rawSaved,
-            targetDate,
-            category,
-            note
-          });
-        }
 
-        save();
-        closePlanModal();
-        setButtonLoading(savePlanBtn, false);
-        showToast("រក្សាទុកផែនការសន្សំបានជោគជ័យ!");
-      }, 300);
+          save();
+          closePlanModal();
+          setButtonLoading(savePlanBtn, false);
+          showToast("រួចរាល់! បានរក្សាទុកផែនការសន្សំប្រាក់!", "success");
+        }, 1000);
+      }, 1500);
     };
   }
 
-  // Save Deposit
+  // Save Deposit - 2.5 Second Multi-step Progress Animation
   const saveDepositBtn = $("#saveDepositBtn");
   if (saveDepositBtn) {
     saveDepositBtn.onclick = () => {
@@ -1301,31 +1313,40 @@ document.addEventListener("DOMContentLoaded", () => {
       const p = (data.savingPlans || []).find(x => x.id === planId);
       if (!p) return alert("រកមិនឃើញផែនការសន្សំទេ");
 
-      setButtonLoading(saveDepositBtn, true, "កំពុងរក្សាទុក...");
+      // Step 1 (0.0s - 1.5s): "កំពុងបង្កើតទិន្នន័យ..." (1.5 seconds)
+      setButtonLoading(saveDepositBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
 
       setTimeout(() => {
-        if (selectedCurrency === "$") {
-          rawAmount = rawAmount * EXCHANGE_RATE;
-        }
+        // Step 2 (1.5s - 2.5s): "កំពុងរក្សាទុក..." (1.0 second)
+        setButtonLoading(saveDepositBtn, true, "កំពុងរក្សាទុក...");
+        const bar = $("#topLoadingBar");
+        if (bar) bar.style.width = "85%";
 
-        p.saved = (Number(p.saved) || 0) + rawAmount;
+        setTimeout(() => {
+          // Step 3 (at 2.5s): Finish & "រួចរាល់"
+          if (selectedCurrency === "$") {
+            rawAmount = rawAmount * EXCHANGE_RATE;
+          }
 
-        data.savingsDeposits = data.savingsDeposits || [];
-        data.savingsDeposits.push({
-          id: Date.now(),
-          planId,
-          amount: rawAmount,
-          source,
-          date,
-          note
-        });
+          p.saved = (Number(p.saved) || 0) + rawAmount;
 
-        save();
-        closeDepositModal();
-        setButtonLoading(saveDepositBtn, false);
-        showToast("បន្ថែមប្រាក់សន្សំបានជោគជ័យ!");
-      }, 300);
+          data.savingsDeposits = data.savingsDeposits || [];
+          data.savingsDeposits.push({
+            id: Date.now(),
+            planId,
+            amount: rawAmount,
+            source,
+            date,
+            note
+          });
+
+          save();
+          closeDepositModal();
+          setButtonLoading(saveDepositBtn, false);
+          showToast("រួចរាល់! បានបន្ថែមប្រាក់សន្សំ!", "success");
+        }, 1000);
+      }, 1500);
     };
   }
 
@@ -1455,8 +1476,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   : `⚠️ <b>ការព្រមានហិរញ្ញវត្ថុ!</b> ប្រាក់សល់ខែនេះ (${money(netCapacity)}) តិចជាងប្រាក់ត្រូវសន្សំប្រចាំខែ (${money(totalReqMonthly)})។ សូមកាត់បន្ថយចំណាយ ឬពន្យារពេលកំណត់ផែនការ។`
                 }
               </div>
-              <button class="btn-primary" style="margin-top:8px;" onclick="go('savings')">
-                🎯 ទៅកាន់ទំព័រ ផែនការសន្សំប្រាក់
+              <button class="btn-primary" style="margin-top:8px; display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="go('savings')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2 2.5-2.5 2.5-6 1.5-7.5-.7-1-1.2-1.5-2-2z"/><path d="M16 11h.01"/></svg>
+                <span>ទៅកាន់ទំព័រ ផែនការសន្សំប្រាក់</span>
               </button>
             </div>
           `;

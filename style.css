@@ -1232,9 +1232,23 @@ select option, .select-input option {
 .savings-hero-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+#openCreatePlanBtn {
+  white-space: nowrap;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px var(--accent-primary-glow);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .savings-summary-grid {
