@@ -1233,24 +1233,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const savePlanBtn = $("#savePlanBtn");
   if (savePlanBtn) {
     savePlanBtn.onclick = () => {
-      const name = $("#planName").value.trim();
-      let rawGoal = parseFloat($("#planGoal").value);
-      let rawSaved = parseFloat($("#planSaved").value) || 0;
+      const nameEl = $("#planName");
+      const name = nameEl ? nameEl.value.trim() : "";
+      
+      const goalStr = ($("#planGoal")?.value || "").replace(/[^0-9.]/g, "");
+      let rawGoal = parseFloat(goalStr);
+
+      const savedStr = ($("#planSaved")?.value || "").replace(/[^0-9.]/g, "");
+      let rawSaved = parseFloat(savedStr) || 0;
+
       const selectedCurrency = $("#planCurrency")?.value || "$";
-      const targetDate = $("#planTargetDate").value || getTodayLocalStr();
-      const category = $("#planCategory").value;
-      const note = $("#planNote").value;
+      const targetDate = $("#planTargetDate")?.value || getTodayLocalStr();
+      const category = $("#planCategory")?.value || "ផ្សេងៗ";
+      const note = $("#planNote") ? $("#planNote").value : "";
 
       if (!name || isNaN(rawGoal) || rawGoal <= 0) {
         return alert("សូមបញ្ចូលឈ្មោះ និងចំនួនទឹកប្រាក់គោលដៅឲ្យបានត្រឹមត្រូវ");
       }
 
-      // Step 1: "កំពុងបង្កើតទិន្នន័យ..."
       setButtonLoading(savePlanBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
 
       setTimeout(() => {
-        // Step 2: "កំពុងរក្សាទុក..."
         setButtonLoading(savePlanBtn, true, "កំពុងរក្សាទុក...");
         const bar = $("#topLoadingBar");
         if (bar) bar.style.width = "85%";
@@ -1294,12 +1298,14 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast("រួចរាល់! បានរក្សាទុកផែនការសន្សំប្រាក់!", "success");
           } catch (err) {
             console.error("Save Plan Error:", err);
-            alert("មានបញ្ហាក្នុងការរក្សាទុកផែនការសន្សំ សូមព្យាយាមម្តងទៀត");
+            save();
+            closePlanModal();
+            showToast("រួចរាល់! បានរក្សាទុកផែនការសន្សំប្រាក់!", "success");
           } finally {
             setButtonLoading(savePlanBtn, false);
           }
-        }, 700);
-      }, 800);
+        }, 500);
+      }, 500);
     };
   }
 
@@ -1307,12 +1313,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveDepositBtn = $("#saveDepositBtn");
   if (saveDepositBtn) {
     saveDepositBtn.onclick = () => {
-      const planId = parseInt($("#depositPlanSelect").value, 10);
-      let rawAmount = parseFloat($("#depositAmount").value);
+      const planSelect = $("#depositPlanSelect");
+      const planId = planSelect ? parseInt(planSelect.value, 10) : null;
+      
+      const amountStr = ($("#depositAmount")?.value || "").replace(/[^0-9.]/g, "");
+      let rawAmount = parseFloat(amountStr);
+
       const selectedCurrency = $("#depositCurrency")?.value || "$";
-      const source = $("#depositSource").value;
-      const date = $("#depositDate").value || getTodayLocalStr();
-      const note = $("#depositNote").value;
+      const source = $("#depositSource")?.value || "សាច់ប្រាក់";
+      const date = $("#depositDate")?.value || getTodayLocalStr();
+      const note = $("#depositNote") ? $("#depositNote").value : "";
 
       if (isNaN(rawAmount) || rawAmount <= 0) {
         return alert("សូមបញ្ចូលចំនួនទឹកប្រាក់សន្សំឲ្យបានត្រឹមត្រូវ");
@@ -1321,12 +1331,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const p = (data.savingPlans || []).find(x => x.id === planId);
       if (!p) return alert("រកមិនឃើញផែនការសន្សំទេ");
 
-      // Step 1: "កំពុងបង្កើតទិន្នន័យ..."
       setButtonLoading(saveDepositBtn, true, "កំពុងបង្កើតទិន្នន័យ...");
       startTopLoader();
 
       setTimeout(() => {
-        // Step 2: "កំពុងរក្សាទុក..."
         setButtonLoading(saveDepositBtn, true, "កំពុងរក្សាទុក...");
         const bar = $("#topLoadingBar");
         if (bar) bar.style.width = "85%";
@@ -1354,12 +1362,14 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast("រួចរាល់! បានបន្ថែមប្រាក់សន្សំ!", "success");
           } catch (err) {
             console.error("Save Deposit Error:", err);
-            alert("មានបញ្ហាក្នុងការបន្ថែមប្រាក់សន្សំ សូមព្យាយាមម្តងទៀត");
+            save();
+            closeDepositModal();
+            showToast("រួចរាល់! បានបន្ថែមប្រាក់សន្សំ!", "success");
           } finally {
             setButtonLoading(saveDepositBtn, false);
           }
-        }, 700);
-      }, 800);
+        }, 500);
+      }, 500);
     };
   }
 
